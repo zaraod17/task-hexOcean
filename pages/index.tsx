@@ -1,7 +1,9 @@
+import DishForm from "@/components/DishForm/DishForm";
+
 const Home: React.FC<{}> = () => {
   return (
     <>
-      <h1>Hello world</h1>
+      <DishForm></DishForm>
     </>
   );
 };
