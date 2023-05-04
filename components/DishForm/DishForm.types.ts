@@ -1,4 +1,4 @@
-interface FormProps {
+export interface FormProps {
   name: string;
   preparation_time: string;
   type: string;
