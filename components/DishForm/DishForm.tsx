@@ -62,7 +62,7 @@ const DishForm: React.FC<Props> = ({ handleSubmit }) => {
         <Field
           name="preparation_time"
           component={renderDurationField}
-          label={"Preparation time"}
+          label={"Preparation time (HH:MM:SS)"}
           type="text"
           error={memoizedErrors.preparation_time}
           required

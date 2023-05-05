@@ -29,3 +29,5 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 Tech stack: Next.js, redux-form, typescript, styled components
 
 I finished this task in 10 hours
+
+live demo: [https://regal-cactus-765133.netlify.app/](https://regal-cactus-765133.netlify.app/)
