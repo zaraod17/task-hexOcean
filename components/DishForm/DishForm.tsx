@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from "react";
-import { Field, reduxForm, InjectedFormProps } from "redux-form";
+import React, { useState } from "react";
+import { Field, reduxForm } from "redux-form";
 
 import { FormProps, Props } from "./DishForm.types";
 
@@ -14,17 +14,14 @@ import {
 
 const DishForm: React.FC<Props> = ({ handleSubmit }) => {
   const [selectedMeal, setSelectedMeal] = useState<string | null>();
-
-  const memoizedErrors = useMemo(() => {
-    const errors: { [key: string]: string } = {};
-    return errors;
-  }, []);
+  const [errors, setErrors] = useState<{
+    [key: string]: string;
+  }>({});
 
   const API_URL =
     "https://umzzcc503l.execute-api.us-west-2.amazonaws.com/dishes/";
 
   const onSubmit = async (values: FormProps) => {
-    // console.log(values);
     const response = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -36,9 +33,16 @@ const DishForm: React.FC<Props> = ({ handleSubmit }) => {
     if (!response.ok) {
       const err: { [key: string]: string[] } = result;
       for (const e in err) {
-        memoizedErrors[e] = err[e][0];
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          [e]: err[e][0],
+        }));
       }
     }
+  };
+
+  const handleResetErrors = () => {
+    setErrors({});
   };
 
   const handleMealTypeChange = (
@@ -55,7 +59,7 @@ const DishForm: React.FC<Props> = ({ handleSubmit }) => {
           component={renderTextField}
           type="text"
           label={"Dish name"}
-          error={memoizedErrors.name}
+          error={errors.name}
           required
         ></Field>
 
@@ -64,7 +68,7 @@ const DishForm: React.FC<Props> = ({ handleSubmit }) => {
           component={renderDurationField}
           label={"Preparation time (HH:MM:SS)"}
           type="text"
-          error={memoizedErrors.preparation_time}
+          error={errors.preparation_time}
           required
           maxLength={8}
         ></Field>
@@ -74,7 +78,7 @@ const DishForm: React.FC<Props> = ({ handleSubmit }) => {
           label="Dish type"
           component={renderSelectField}
           onChange={handleMealTypeChange}
-          error={memoizedErrors.type}
+          error={errors.type}
           required
         >
           <option value="">-</option>
@@ -92,7 +96,7 @@ const DishForm: React.FC<Props> = ({ handleSubmit }) => {
               type="number"
               min={0}
               required={selectedMeal === "pizza"}
-              error={memoizedErrors.no_of_slices}
+              error={errors.no_of_slices}
             ></Field>
             <Field
               name="diameter"
@@ -101,7 +105,7 @@ const DishForm: React.FC<Props> = ({ handleSubmit }) => {
               type="number"
               step={0.01}
               min={0}
-              error={memoizedErrors.diameter}
+              error={errors.diameter}
               required={selectedMeal === "pizza"}
             />
           </>
@@ -124,11 +128,11 @@ const DishForm: React.FC<Props> = ({ handleSubmit }) => {
             label="Slices of bread"
             min={0}
             component={renderNumberField}
-            error={memoizedErrors.slices_of_bread}
+            error={errors.slices_of_bread}
             required={selectedMeal === "sandwich"}
           />
         )}
-        <StyledButton>Submit</StyledButton>
+        <StyledButton onClick={handleResetErrors}>Submit</StyledButton>
       </form>
     </FormWrapper>
   );
