@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { Field, reduxForm, InjectedFormProps } from "redux-form";
 
-import { FormProps } from "./DishForm.types";
+import { FormProps, Props } from "./DishForm.types";
 
 import { FormWrapper, StyledButton } from "./DishForm.styled";
 
@@ -11,8 +11,6 @@ import {
   renderNumberField,
   renderSelectField,
 } from "./InputFields/InputFields";
-
-interface Props extends InjectedFormProps<FormProps> {}
 
 const DishForm: React.FC<Props> = ({ handleSubmit }) => {
   const [selectedMeal, setSelectedMeal] = useState<string | null>();
