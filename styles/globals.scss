@@ -2,6 +2,7 @@ body {
   margin: 0;
   #__next {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
   }
 }
